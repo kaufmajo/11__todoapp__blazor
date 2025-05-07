@@ -2021,7 +2021,7 @@
 
     return null;
   } // Gets the closest ancestor positioned element. Handles some edge cases,
-  // such as table ancestors and cross browser bugs.
+  // such as table ancestors and cross browser todoitems2.
 
 
   function getOffsetParent(element) {

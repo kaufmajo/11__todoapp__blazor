@@ -27,7 +27,7 @@ public partial class Todo
 
         if (!string.IsNullOrWhiteSpace(newTodoTitle))
         {
-            var newItem = new TodoItem { Title = newTodoTitle, IsDone = false };
+            var newItem = new TodoItem { Title = newTodoTitle, IsCompleted = false };
             await TodoService.AddTodoItemAsync(newItem);
             todoItems.Add(newItem);
             newTodoTitle = string.Empty;

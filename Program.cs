@@ -1,5 +1,8 @@
+using Syncfusion.Blazor;
 using TodoList;
+using TodoList.Adaptor;
 using TodoList.Components;
+using TodoList.Repository;
 using TodoList.Services;
 
 // Add custom services to the container.
@@ -10,6 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add custom services to the container.
 builder.Services.AddScoped<TodoService>();
+builder.Services.AddScoped<TodoRepository>();
+builder.Services.AddScoped<TodoAdaptor>();
+builder.Services.AddSyncfusionBlazor();
+
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

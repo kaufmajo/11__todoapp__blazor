@@ -9,12 +9,12 @@ namespace TodoList.Services
     {
         private readonly string _connectionString;
 
+        private IDbConnection Connection => new MySqlConnection(_connectionString);
+
         public TodoService(IConfiguration configuration)
         {
             _connectionString = DotEnv.Get(configuration.GetConnectionString("DefaultConnection") ?? "");
         }
-
-        private IDbConnection Connection => new MySqlConnection(_connectionString);
 
         // Alle To-Do-Elemente abrufen
         public async Task<IEnumerable<TodoItem>> GetTodoItemsAsync()
@@ -33,7 +33,7 @@ namespace TodoList.Services
             {
                 connection.Open();
                 var query = "INSERT INTO TodoItems (Title, IsCompleted) VALUES (@Title, @IsCompleted); SELECT CAST(LAST_INSERT_ID() AS UNSIGNED INTEGER);";
-                var lastInsertedId = await connection.QuerySingleAsync<int>(query, new { item.Title, item.IsDone });
+                var lastInsertedId = await connection.QuerySingleAsync<int>(query, new { item.Title, item.IsCompleted });
                 item.Id = lastInsertedId;
             }
         }
@@ -45,7 +45,7 @@ namespace TodoList.Services
             {
                 connection.Open();
                 var query = "UPDATE TodoItems SET Title = @Title, IsCompleted = @IsCompleted WHERE Id = @Id";
-                await connection.ExecuteAsync(query, new { item.Title, item.IsDone, item.Id });
+                await connection.ExecuteAsync(query, new { item.Title, item.IsCompleted, item.Id });
             }
         }
 

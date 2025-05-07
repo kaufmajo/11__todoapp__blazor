@@ -1,4 +1,18 @@
-﻿<h3>Todo2</h3>
+﻿@page "/todo2"
+@using TodoList.Adaptor
+@using TodoList.Model
+
+<h3>Todo2</h3>
+
+<SfGrid TValue="TodoItem" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })">
+    <SfDataManager AdaptorInstance="typeof(TodoAdaptor)" Adaptor="Adaptors.CustomAdaptor"></SfDataManager>
+    <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true"></GridEditSettings>
+    <GridColumns>
+        <GridColumn Field="@nameof(TodoItem.Id)" IsPrimaryKey="true" Visible="false"></GridColumn>
+        <GridColumn Field="@nameof(TodoItem.Title)" Width="100"></GridColumn>
+        <GridColumn Field="@nameof(TodoItem.IsCompleted)" HeaderText="Priority" Width="100"></GridColumn>
+    </GridColumns>
+</SfGrid>
 
 @code {
 

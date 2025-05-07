@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using Dapper;
+using System.Data;
+using MySqlConnector;
 using TodoList.Model;
 
 namespace TodoList.Repository
@@ -6,57 +8,57 @@ namespace TodoList.Repository
     public class TodoRepository
     {
         private readonly string _connectionString;
-        private const string TODOITEM_DATABASE = "TodoItemDatabase";
-        private const string SELECT_TODOITEMS = "select * from todoitem";
+        private IDbConnection Connection => new MySqlConnection(_connectionString);
+
         public TodoRepository(IConfiguration configuration)
         {
             _connectionString = DotEnv.Get(configuration.GetConnectionString("DefaultConnection") ?? "");
         }
 
-        public async Task<List<TodoItem>> GetBugsAsync()
+        public async Task<List<TodoItem>> GetTodoItemsAsync()
         {
-            using (IDbConnection db = new SqlConnection(Configuration.GetConnectionString(BUGTRACKER_DATABASE)))
+            using (var connection = Connection)
             {
-                db.Open();
-                IEnumerable<TodoItem> result = await db.QueryAsync<Bug>(SELECT_BUG);
+                connection.Open();
+                IEnumerable<TodoItem> result = await connection.QueryAsync<TodoItem>("select * from todoitems2");
                 return result.ToList();
             }
         }
 
-        public async Task<int> GetBugCountAsync()
+        public async Task<int> GetTodoItemsCountAsync()
         {
-            using (IDbConnection db = new SqlConnection(Configuration.GetConnectionString(BUGTRACKER_DATABASE)))
+            using (var connection = Connection)
             {
-                db.Open();
-                int result = await db.ExecuteScalarAsync<int>("select count(*) from bugs");
+                connection.Open();
+                int result = await connection.ExecuteScalarAsync<int>("select count(*) from todoitems2");
                 return result;
             }
         }
 
-        public async Task AddBugAsync(TodoItem todoItem)
+        public async Task AddTodoItemAsync(TodoItem todoItem)
         {
-            using (IDbConnection db = new SqlConnection(Configuration.GetConnectionString(BUGTRACKER_DATABASE)))
+            using (var connection = Connection)
             {
-                db.Open();
-                await db.ExecuteAsync("insert into bugs (Summary, BugPriority, Assignee, BugStatus) values (@Summary, @BugPriority, @Assignee, @BugStatus)", bug);
+                connection.Open();
+                await connection.ExecuteAsync("insert into todoitems2 (Title, IsCompleted) values (@Title, @IsCompleted)", todoItem);
             }
         }
 
-        public async Task UpdateBugAsync(TodoItem todoItem)
+        public async Task UpdateTodoItemAsync(TodoItem todoItem)
         {
-            using (IDbConnection db = new SqlConnection(Configuration.GetConnectionString(BUGTRACKER_DATABASE)))
+            using (var connection = Connection)
             {
-                db.Open();
-                await db.ExecuteAsync("update bugs set Summary=@Summary, BugPriority=@BugPriority, Assignee=@Assignee, BugStatus=@BugStatus where id=@Id", bug);
+                connection.Open();
+                await connection.ExecuteAsync("update todoitems2 set Title=@Title, IsCompleted=@IsCompleted where Id=@Id", todoItem);
             }
         }
 
-        public async Task RemoveBugAsync(int todoItemId)
+        public async Task RemoveTodoItemAsync(int todoItemId)
         {
-            using (IDbConnection db = new SqlConnection(Configuration.GetConnectionString(BUGTRACKER_DATABASE)))
+            using (var connection = Connection)
             {
-                db.Open();
-                await db.ExecuteAsync("delete from bugs Where id=@BugId", new { BugId = bugid });
+                connection.Open();
+                await connection.ExecuteAsync("delete from todoitems2 where id=@TodoItemId", new { TodoItemId = todoItemId });
             }
         }
     }

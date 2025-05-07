@@ -9,6 +9,6 @@ namespace TodoList.Model
         [Required]
         [StringLength(10, ErrorMessage = "Id is too long.")]
         public string? Title { get; set; }
-        public bool IsDone { get; set; }
+        public bool IsCompleted { get; set; }
     }
 }

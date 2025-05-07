@@ -6,15 +6,15 @@
 
 <PageTitle>Todo</PageTitle>
 
-<h1>Todo (@todoItems.Count(item => !item.IsDone))</h1>
+<h1>Todo (@todoItems.Count(item => !item.IsCompleted))</h1>
 
 <div>
 	@foreach (var item in todoItems)
 	{
 		<div class="d-flex justify-content-between mb-2">
 			<div @key="item.Id">
-				@* <input type="checkbox" @bind-value="item.IsDone" @bind-value:event="onchange" @oninput="() => UpdateTodoItem(item)" /> *@
-				<input type="checkbox" @bind="item.IsDone" @bind:after="() => UpdateTodoItem(item)" />
+				@* <input type="checkbox" @bind-value="item.IsCompleted" @bind-value:event="onchange" @oninput="() => UpdateTodoItem(item)" /> *@
+				<input type="checkbox" @bind="item.IsCompleted" @bind:after="() => UpdateTodoItem(item)" />
 				@item.Id - @item.Title
 			</div>
 			<div>
