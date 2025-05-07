@@ -1,9 +1,9 @@
-using Syncfusion.Blazor;
 using TodoList;
 using TodoList.Adaptor;
 using TodoList.Components;
 using TodoList.Repository;
 using TodoList.Services;
+using Syncfusion.Blazor;
 
 // Add custom services to the container.
 DotEnv.Load(Path.Combine(Directory.GetCurrentDirectory(), ".env"));

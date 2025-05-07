@@ -17,3 +17,5 @@
 ## To implement
 
 <https://www.syncfusion.com/blogs/post/build-blazor-crud-application-with-dapper>
+
+<https://blazor.syncfusion.com/documentation/datagrid/connecting-to-database/dapper>
