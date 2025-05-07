@@ -1,0 +1,10 @@
+{
+  "version": "3.0",
+  "defaultProvider": "filesystem",
+  "libraries": [
+    {
+      "library": "wwwroot/lib/bootstrap_icons_1_12_1/",
+      "destination": "wwwroot/lib/bootstrap_icons_1_12_1/"
+    }
+  ]
+}

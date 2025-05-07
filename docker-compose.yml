@@ -1,0 +1,44 @@
+﻿services:
+  # ---
+  mariadb:
+    build: 
+      context: .
+      dockerfile: mariadb.dockerfile
+    #image: todolist-mariadb
+    env_file: ".env"
+    networks:
+      - app_network
+    container_name: mariadb_container
+    # environment:
+    #   ENV MARIADB_ROOT_PASSWORD: ${VARIABLE}
+    #   ENV MARIADB_DATABASE: ${VARIABLE}
+    #   ENV MARIADB_USER: ${VARIABLE}
+    #   ENV MARIADB_PASSWORD: ${VARIABLE}
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./Data/mariadb:/var/lib/mysql
+  # ---
+  phpmyadmin:
+    build: 
+      context: .
+      dockerfile: phpmyadmin.dockerfile
+    #image: todolist-phpmyadmin
+    env_file: ".env"
+    networks:
+      - app_network
+    container_name: phpmyadmin_container
+    restart: always
+    # environment:
+    #   PMA_HOST: mariadb
+    #   PMA_USER: ${VARIABLE}
+    #   PMA_PASSWORD: ${VARIABLE}
+    ports:
+      - "8082:80" # expose phpMyAdmin on port 8090
+    depends_on:
+      - mariadb
+# volumes:
+#  mariadb_volume:
+networks:
+  app_network:
