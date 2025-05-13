@@ -17,7 +17,6 @@ builder.Services.AddScoped<TodoRepository>();
 builder.Services.AddScoped<TodoAdaptor>();
 builder.Services.AddSyncfusionBlazor();
 
-
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
